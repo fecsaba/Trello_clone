@@ -10,8 +10,11 @@
 
     class UserController extends Controller
     {
-        public function login()
+        public function login(Request $request)
         {
+            $status = 401;
+            $response = ['error' => 'Unauthorised'];
+
             $credentials = [
                 'email' => request('email'), 
                 'password' => request('password')
@@ -20,7 +23,7 @@
             if (Auth::attempt($credentials)) {
                 $success['token'] = Auth::user()->createToken('MyApp')->accessToken;
 
-                return response()->json(['success' => $success]);
+                return response()->json($response, $status);
             }
 
             return response()->json(['error' => 'Unauthorised'], 401);
