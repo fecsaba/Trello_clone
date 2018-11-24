@@ -1,7 +1,10 @@
 <?php
 
-    Route::resource('/task', 'TaskController');
-    Route::get('/category/{category}/tasks', 'CategoryController@tasks');
+Route::post('login', 'UserController@login');
+Route::post('register', 'UserController@register');
+
+Route::group(['middleware' => 'auth:api'], function(){
+    Route::resource('/task', 'TasksController');
     Route::resource('/category', 'CategoryController');
-    Route::post('login', 'UserController@login');
-    Route::post('register', 'UserController@register');
+    Route::get('/category/{category}/tasks', 'CategoryController@tasks');
+});
